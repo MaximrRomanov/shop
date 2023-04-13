@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -12,6 +13,11 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    # Генерирования ссылок на объекты, которые создаются и меняются в базе данных.
+    # Для каждого из них мы должны генерировать ссылку для более детального просмотра
+    def get_absolute_url(self):
+        return reverse('products_list_by_slug', kwargs={'slug': self.slug})
 
 
 class Product(models.Model):
@@ -27,8 +33,8 @@ class Product(models.Model):
     stock = models.PositiveIntegerField(verbose_name="Количество")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    category = models.ForeignKey(Category, verbose_name="Категория", max_length=200)
-    available = models.CharField(choices=AVAILABLE_STATUS, verbose_name="Статус")
+    category = models.ForeignKey(Category, verbose_name="Категория", max_length=200, on_delete=models.CASCADE)
+    available = models.CharField(choices=AVAILABLE_STATUS, verbose_name="Статус", max_length=20)
 
     class Meta:
         ordering = ('name',)
@@ -38,3 +44,6 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('product_detail_by_slug', kwargs={'slug': self.slug})

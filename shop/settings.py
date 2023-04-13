@@ -30,6 +30,8 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+CART_SESSION_ID = 'cart'
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -37,7 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "e_commerce"
+    "e_commerce",
+    "cart"
 ]
 
 MIDDLEWARE = [
