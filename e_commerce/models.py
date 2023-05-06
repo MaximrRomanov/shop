@@ -17,7 +17,7 @@ class Category(models.Model):
     # Генерирования ссылок на объекты, которые создаются и меняются в базе данных.
     # Для каждого из них мы должны генерировать ссылку для более детального просмотра
     def get_absolute_url(self):
-        return reverse('products_list_by_slug', kwargs={'slug': self.slug})
+        return reverse('products_list_by_slug', kwargs={'category_slug': self.slug})
 
 
 class Product(models.Model):
@@ -46,4 +46,4 @@ class Product(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('product_detail_by_slug', kwargs={'slug': self.slug})
+        return reverse('product_detail_by_slug', kwargs={'product_slug': self.slug})

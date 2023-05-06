@@ -1,9 +1,14 @@
 from django.urls import path
 from . import views
+from .views import ShopCategories, ShopProducts
 
 urlpatterns = [
-    # path("", views.get_home_page, name="home_page"),
-    path("category/<slug:category_slug>", views.get_products_list_by_slug, name="products_list_by_slug"),  # по слагу категории получили товары
-    path("product/<slug:product_slug>/", views.get_product_detail_by_slug, name="product_detail_by_slug"),  # по первичному ключу
+    path("", views.get_home_page, name="home_page"),
+    path("category/<slug:category_slug>", ShopCategories.as_view(), name="products_list_by_slug"),  # по слагу категории получили товары
+    path("product/<slug:product_slug>/", ShopProducts.as_view(), name="product_detail_by_slug"),  # по первичному ключу
+    path("login/", views.get_user_login, name="user_login"),
+    # path("register/", RegisterUser.as_view(), name="register"),
+    path("logout/", views.logout, name="logout"),
+
 
 ]
