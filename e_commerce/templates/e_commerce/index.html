@@ -1,5 +1,6 @@
 {% extends 'e_commerce/base_html.html' %}
 {%  load static %}
+{%  block title %} {{ title }}{% endblock %}
 {%  block content %}
 <!-- Home -->
 
@@ -131,11 +132,11 @@
 			<div class="row">
 				<div class="col">
 					<div class="product_grid" style="position: relative; height: 2848px;">
+                        {#  products мы получили из класса-представления ShopProductsListView #}
                     {%  for product in products %}
 						<!-- Product -->
-{#  СДЕЛАТЬ ВЫВОД ФОТОГРАФИИ ДЛЯ КАЖДОГО ПРОДУКТА#}
-
-						<div class="product">
+                        {# СДЕЛАТЬ ВЫВОД ФОТОГРАФИИ ДЛЯ КАЖДОГО ПРОДУКТА #}
+                        <div class="product">
 							<div class="product_image"><img src="{%  static 'e_commerce/images/product_2.jpg' %}" alt=""></div>
 							<div class="product_extra product_new"><a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></div>
 							<div class="product_content">

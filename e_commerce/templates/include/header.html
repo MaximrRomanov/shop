@@ -11,18 +11,22 @@
 									<li class="hassubs active">
 										<a href="base_html.html">Основная страница</a>
 										<ul>
+                                             <li><a href=" ">Регистрация</a></li>
+                                            <li><a href="checkout.html">Войти</a></li>
 											<li><a href="categories.html">Категории</a></li>
 											<li><a href="product.html">Продукты</a></li>
 											<li><a href="../cart/cart.html">Корзина</a></li>
-											<li><a href="checkout.html">Check out</a></li>
 											<li><a href="contact.html">Контакты</a></li>
+
 										</ul>
 									</li>
 									<li class="hassubs">
+                                        {# выводим категории #}
 										<a href="categories.html">Категории</a>
 										<ul>
-                                            {% for category in categories %}
-											<li><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
+                                            {#  products мы получили из класса-представления ShopProductsListView #}
+                                            {% for product in products %}
+											<li><a href="{{ product.category.get_absolute_url }}">{{product.category }}</a></li>
 
                                             {% endfor %}
 										</ul>
@@ -93,16 +97,35 @@
 			</div>
 		</div>
 
+
 		<!-- Social -->
-		<div class="header_social">
-			<ul>
-                <li class="main_nav"><a href={% url 'register' %}>Регистрация</a> | <a href="{% url 'user_login' %}">Войти</a></li>
+{#		<div class="header_social">#}
+{#			<ul>#}
+{#                <li class="main_nav"><a href={% url 'register' %}>Регистрация</a> | <a href="{% url 'user_login' %}">Войти</a></li>#}
 {#				<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>#}
 {#				<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>#}
 {#				<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>#}
 {#				<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>#}
+{#			</ul>#}
+{#		</div>#}
+
+
+    <!-- Login, logout and Register  -->
+	<div class="header_social">
+        {% if user.is_authenticated %}
+			<ul>
+                {#  вот так было li class="main_nav #}
+                                        {#        СДЕЛАТЬ ШРИФТ КАК У КОРЗИНЫ        #}
+                <li><span style="color: black">{{ user.username }}</span> | <a href="{% url 'account_logout' %}" style="color: black">Выйти</a></li>
 			</ul>
+        {% else %}
+            <ul>
+                <li><a href="{% url 'account_login' %}" style="color: black">Войти</a> | <a href="{% url 'account_signup' %}" style="color: black">Регистрация</a></li>
+
+			</ul>
+        {% endif %}
 		</div>
+
 
 	</header>
 

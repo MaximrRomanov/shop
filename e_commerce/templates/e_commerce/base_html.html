@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>{{ title }}</title>
+<title> {% block title %} {% endblock title %}</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="Sublime project">
@@ -14,6 +14,9 @@
 <link rel="stylesheet" type="text/css" href="{%  static 'e_commerce/plugins/OwlCarousel2-2.2.1/animate.css' %}">
 <link rel="stylesheet" type="text/css" href="{%  static 'e_commerce/styles/main_styles.css' %}">
 <link rel="stylesheet" type="text/css" href="{%  static 'e_commerce/styles/responsive.css' %}">
+
+{%  block custom_css %} {%  endblock custom_css %}
+
 </head>
 <body>
 
@@ -223,8 +226,6 @@
 
 	{% include 'include/footer.html' %}
 
-
-
 </div>
 
 <script src="{%  static 'js/jquery-3.2.1.min.js' %}"></script>
@@ -240,5 +241,8 @@
 <script src="{%  static 'plugins/easing/easing.js' %}"></script>
 <script src="{%  static 'plugins/parallax-js-master/parallax.min.js' %}"></script>
 <script src="{%  static 'js/custom.js' %}"></script>
+
+{%  block custom_js %} {%  endblock custom_js %}
+
 </body>
 </html>
