@@ -22,7 +22,7 @@
 					<div class="row">
 						<div class="col">
 							<div class="home_content">
-								<div class="home_title">Smart Phones<span>.</span></div>
+								<div class="home_title">Телефоны<span>.</span></div>
 								<div class="home_text"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a ultricies metus. Sed nec molestie eros. Sed viverra velit venenatis fermentum luctus.</p></div>
 							</div>
 						</div>
@@ -41,12 +41,12 @@
 				<!-- Product Image -->
 				<div class="col-lg-6">
 					<div class="details_image">
-						<div class="details_image_large"><img src="images/details_1.jpg" alt=""><div class="product_extra product_new"><a href="categories.html">New</a></div></div>
+						<div class="details_image_large"><img src="{% static 'e_commerce/images/details_1.jpg' %}" alt=""><div class="product_extra product_new"><a href="">{{ product_detail.category }}</a></div></div>
 						<div class="details_image_thumbnails d-flex flex-row align-items-start justify-content-between">
-							<div class="details_image_thumbnail active" data-image="images/details_1.jpg"><img src="images/details_1.jpg" alt=""></div>
-							<div class="details_image_thumbnail" data-image="images/details_2.jpg"><img src="images/details_2.jpg" alt=""></div>
-							<div class="details_image_thumbnail" data-image="images/details_3.jpg"><img src="images/details_3.jpg" alt=""></div>
-							<div class="details_image_thumbnail" data-image="images/details_4.jpg"><img src="images/details_4.jpg" alt=""></div>
+							<div class="details_image_thumbnail active" data-image="{% static 'e_commerce/images/details_1.jpg' %}"><img src="{% static 'e_commerce/images/details_1.jpg' %}" alt=""></div>
+							<div class="details_image_thumbnail" data-image="{% static 'e_commerce/images/details_2.jpg' %}"><img src="{% static 'e_commerce/images/details_2.jpg' %}" alt=""></div>
+							<div class="details_image_thumbnail" data-image="{% static 'e_commerce/images/details_3.jpg' %}"><img src="{% static 'e_commerce/images/details_3.jpg' %}" alt=""></div>
+							<div class="details_image_thumbnail" data-image="{% static 'e_commerce/images/details_4.jpg' %}"><img src="{% static 'e_commerce/images/details_4.jpg' %}" alt=""></div>
 						</div>
 					</div>
 				</div>
@@ -54,17 +54,21 @@
 				<!-- Product Content -->
 				<div class="col-lg-6">
 					<div class="details_content">
-						<div class="details_name">{{ product.name }}</div>
-						<div class="details_discount">$890</div>
-						<div class="details_price">$ {{ product.price }}</div>
+						<div class="details_name">{{ product_detail.name }}</div>
+                        <div class="details_discount">$890</div>
+                        <div class="details_price">$ {{ product_detail.price }}</div>
+                        <div class=""> {{ product_detail.slug }}</div>
+                        <div class="">Бренд</div>
+
+
 
 						<!-- In Stock -->
 						<div class="in_stock_container">
 							<div class="availability">Статус:</div>
-							<span> {{ product.available }}</span>
+							<span> {{ product_detail.available }}</span>
 						</div>
 						<div class="details_text">
-							<p> {{ product.description }}</p>
+							<p> {{ product_detail.description }}</p>
 						</div>
 
 						<!-- Product Quantity -->
@@ -97,11 +101,11 @@
 			<div class="row description_row">
 				<div class="col">
 					<div class="description_title_container">
-						<div class="description_title">Description</div>
+						<div class="description_title">Описание</div>
 						<div class="reviews_title"><a href="#">Reviews <span>(1)</span></a></div>
 					</div>
 					<div class="description_text">
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Phasellus id nisi quis justo tempus mollis sed et dui. In hac habitasse platea dictumst. Suspendisse ultrices mauris diam. Nullam sed aliquet elit. Mauris consequat nisi ut mauris efficitur lacinia.</p>
+						<p>{{ product_detail.description }}</p>
 					</div>
 				</div>
 			</div>
@@ -114,7 +118,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col text-center">
-					<div class="products_title">Related Products</div>
+					<div class="products_title">Похожие товары</div>
 				</div>
 			</div>
 			<div class="row">

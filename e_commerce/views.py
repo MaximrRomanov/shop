@@ -2,49 +2,82 @@ from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, DetailView
 from .models import Category, Product
 
 
-# def get_home_page(request):
-#     products = Product.objects.all()
-#     categories = Category.objects.all()
-#     context = {
-#         'title': 'Hello world',
-#         'products': products,
-#         'categories': categories
-#
-#     }
-#     return render(request, 'e_commerce/index.html', context=context)
-
+# Отображение главной страницы с продуктами и категориями
 class ShopProductsListView(ListView):
     model = Product
+    paginate_by = 1
     template_name = 'e_commerce/index.html'
     # (атрибут класса) та переменная, которую мы будем использовать в шаблоне, default переменная называется object_list
     context_object_name = 'products'
 
     # специальный атрибут здесь можно передавать только статические неизменяемые данные
     # extra_context = {'title': 'Главная страница'}
-
     # Возвращает данные контекста для отображения объекта.
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(
             **kwargs)  # обращаемся к родительскому классу ListView для получения его контекста
         context['title'] = 'Главная страница'
+        context['categories'] = Category.objects.all()
         return context
 
 
+# Отображение всех товаров определенной категории
 class ShopCategoriesListView(ListView):
     model = Product
+    paginate_by = 1
+    # Под капотом все методы пагинации используют класс Paginator.
+    # Он выполняет всю тяжелую работу по разбиению QuerySet на Page объекты.
     template_name = 'e_commerce/index.html'
-    extra_context = 'categories'
+    context_object_name = 'products'
+    allow_empty = False
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        contex = super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Категория - ' + str(context['products'][0].category)
+        context['categories'] = Category.objects.all()
+        return context
 
     # Выбрали те продукты, которые соответствуют данной категории
     def get_queryset(self):
         return Product.objects.filter(category__slug=self.kwargs['category_slug'])  # возвращает коллекцию object_list
+    # в зависимости от гет запроса
+
+
+class ProductDetailView(DetailView):
+    """ Страница товара"""
+    model = Product
+    template_name = 'e_commerce/product.html'
+    context_object_name = 'product_detail'
+    # без этого атрибута он видит просто slug
+    slug_url_kwarg = 'product_slug'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Страница товара'
+        context['categories'] = Category.objects.all()
+        return context
+
+    # def get_queryset(self):
+    #     return Product.objects.filter(slug__in=self.kwargs['product_slug'])
+
+
+class SearchListView(ListView):
+    """ Поиск товаров"""
+    # будем выводить по 3 фильма
+    paginate_by = 3
+
+    # фильтруем продукты по названию без учета регистра (icontains) и возвращаем queryset
+    def get_queryset(self):
+        return Product.objects.filter(name__icontains=self.request.GET('query'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET('query')
+        return context
 
 
 # Чтобы отобразить каталог продуктов, необходимо создать представление для списка всех
@@ -80,30 +113,5 @@ def get_product_detail_by_slug(request, product_slug=None):
     return render(request, 'e_commerce/product.html', context=context)
 
 
-def get_user_login(request):
-    return HttpResponse(f"<h1> Get user  login</h1>")
-
-
-def register(request):
-    return HttpResponse("<h1> Ura Register!</h1>")
-
-
-def logout(request):
-    return HttpResponse("<h1> Ura Logout!</h1>")
-
-
 def cat(request):
     return render(request, 'e_commerce/categories.html', context={'title': 'Категории'})
-
-
-# для регистрации новых пользователей
-class RegisterUser(CreateView):
-    form_class = UserCreationForm  # django предоставляет форму для регистрации пользователей
-    template_name = 'e_commerce/register.html'
-    # атрибут, отвечающий за перенаправление на страницу входа после успешной регистрации
-    success_url = reverse_lazy('login')
-
-    # метод возвращает данные контекста для отображения объекта.
-    def get_context_data(self, **kwargs):
-        pass
-

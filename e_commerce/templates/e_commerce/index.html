@@ -131,14 +131,14 @@
 		<div class="container">
 			<div class="row">
 				<div class="col">
-					<div class="product_grid" style="position: relative; height: 2848px;">
+					<div class="product_grid">
                         {#  products мы получили из класса-представления ShopProductsListView #}
                     {%  for product in products %}
 						<!-- Product -->
                         {# СДЕЛАТЬ ВЫВОД ФОТОГРАФИИ ДЛЯ КАЖДОГО ПРОДУКТА #}
                         <div class="product">
-							<div class="product_image"><img src="{%  static 'e_commerce/images/product_2.jpg' %}" alt=""></div>
-							<div class="product_extra product_new"><a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></div>
+							<div class="product_image"><a href="{{ product.category.get_absolute_url }}"><img src="{%  static 'e_commerce/images/product_2.jpg' %}" alt=""></a</div>
+{#							<div class="product_extra product_new"><a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></div>#}
 							<div class="product_content">
 								<div class="product_title"><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></div>
 								<div class="product_price">{{ product.price }}$</div>
@@ -151,6 +151,27 @@
 			</div>
 		</div>
 	</div>
+
+    	<!-- Pagination-->
+    <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page={{  page_obj.previous_page_number }}"> {{ page_obj.previous_page_number }} </a>
+            <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+        {% endif %}
+        {% if paginator.num_pages > 1 %}
+            <span class="current">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+            </span>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+            <a href="?page={{page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% endif %}
+    </span>
+</div>
+
 
 	<!-- Ad -->
 
