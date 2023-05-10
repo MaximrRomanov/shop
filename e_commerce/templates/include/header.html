@@ -1,11 +1,12 @@
 {%  load static %}
+<!-- Header -->
 <header class="header">
 		<div class="header_container">
 			<div class="container">
 				<div class="row">
 					<div class="col">
 						<div class="header_content d-flex flex-row align-items-center justify-content-start">
-							<div class="logo"><a href="#">Магазин</a></div>
+							<div class="logo"><a href="{% url 'home_page' %}">Магазин</a></div>
 							<nav class="main_nav">
 								<ul>
 									<li class="hassubs active">
@@ -15,7 +16,10 @@
 											<li><a href="product.html">Продукты</a></li>
 											<li><a href="../cart/cart.html">Корзина</a></li>
 											<li><a href="contact.html">Контакты</a></li>
-
+                                            {% if not user.is_authenticated %}
+                                            <li><a href="{% url 'account_signup' %}">Регистрация</a></li>
+                                            <li><a href="{% url 'account_login' %}">Войти</a></li>
+                                            {% endif %}
 										</ul>
 									</li>
 									<li class="hassubs">
